@@ -1,14 +1,27 @@
 # We Convene MathSteps Agent — Google Colab Math Practice
 
-The interactive Google Colab notebook is [`notebooks/We_Convene_MathSteps_Grades_6_12_GED.ipynb`](notebooks/We_Convene_MathSteps_Grades_6_12_GED.ipynb).
+The interactive notebook is [`We_Convene_MathSteps_Grades_6_12_GED.ipynb`](We_Convene_MathSteps_Grades_6_12_GED.ipynb).
 
-It demonstrates common math task types for grades 6–12 and foundational GED preparation: arithmetic, fractions, ratios/proportions, percentages, linear and quadratic equations, polynomial expansion/factoring, systems, slope, area, and mean. The grade bands are a practical organization, not a claim of official CPS/GED endorsement or a complete standards map. Please verify teaching and test-prep materials against current official sources.
+It provides practice across grades 6–12 and foundational GED mathematics, including arithmetic, fractions, ratios and proportions, percentages, linear and quadratic equations, polynomial expansion and factoring, systems, coordinate geometry, area, and statistics.
+
+These grade-band labels organize practice; they do not claim official CPS or GED endorsement. Verify any standards alignment and test-preparation guidance against current Chicago Public Schools and GED Testing Service materials.
 
 ## Open in Colab
 
 1. Open [Google Colab](https://colab.research.google.com/).
-2. Select **File → Open notebook → GitHub**.
-3. Enter `contrivancecompanychicago/wecovenemathsteps` and select the notebook under `notebooks/`.
-4. Run its cells from top to bottom. The install cell installs SymPy in the temporary Colab runtime.
+2. Choose **File → Open notebook → GitHub**.
+3. Enter `contrivancecompanychicago/wecovenemathsteps`.
+4. Select `notebooks/We_Convene_MathSteps_Grades_6_12_GED.ipynb`.
+5. Run the install cell, then run the notebook from top to bottom.
 
-The notebook is a prototype and is not an always-on service. Avoid adding student names or personal information to notebooks shared with others.
+## Safety and scope
+
+- Do not enter student names or personal information.
+- Run each expression with the supplied safe parser instead of unrestricted `eval`.
+- The parser supports numbers, `+`, `-`, `*`, `/`, `**`, parentheses, and `x`, `y`, and `z`.
+- The notebook is a practice prototype, not an official curriculum, test-preparation source, or always-on service.
+- Review all worked answers before classroom use.
+
+## Known verification item
+
+The `3/4 = x/12` proportion must be solved as `x = 9`. The notebook’s proportion helper and example should be corrected and rerun before use.
