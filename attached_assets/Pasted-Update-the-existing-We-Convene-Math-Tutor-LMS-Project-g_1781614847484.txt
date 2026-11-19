@@ -1,0 +1,229 @@
+Update the existing We Convene Math Tutor LMS.
+
+Project goal:
+Upgrade the app into the instructional companion platform for EDUISx LMS and the We Convene Home and School Tutoring Services math curriculum.
+
+Main update:
+Add CRA-based tutoring support, beginning with Stage 1: Concrete.
+
+CRA means:
+Concrete → Representational → Abstract
+
+Stage 1: Concrete should help students understand mathematics through hands-on objects, manipulatives, visual grouping, measuring, sorting, building, and explaining before using formulas or symbolic procedures.
+
+Build the following updates:
+
+1. Add a CRA Dashboard
+
+Create a page called “CRA Learning Dashboard” with cards for:
+
+* Stage 1: Concrete
+* Stage 2: Representational
+* Stage 3: Abstract
+* Transfer
+* Modeling
+* Mathematical Independence
+
+For now, make Stage 1: Concrete fully functional. The other stages can be marked “Coming Soon.”
+
+2. Add Stage 1: Concrete Lesson Library
+
+Create lesson categories for:
+
+* Number Sense
+* Addition and Subtraction
+* Multiplication and Division
+* Fractions
+* Ratios and Proportions
+* Geometry
+* Algebra Readiness
+
+Each lesson should include:
+
+* Lesson title
+* Grade band: Middle School, High School, Community College Prep
+* Materials needed
+* Learning objective
+* Explore activity
+* Observe questions
+* Explain questions
+* Connect prompt
+* Symbolize prompt
+* Reflection question
+
+3. Create Concrete Lesson Template
+
+Use this structure for every Stage 1 lesson:
+
+Explore:
+Student uses physical objects or manipulatives.
+
+Observe:
+Student describes what changed, what stayed the same, and what they notice.
+
+Explain:
+Student explains the mathematical relationship in words.
+
+Connect:
+Student connects the physical model to a drawing, table, number line, or diagram.
+
+Symbolize:
+Only after understanding, student writes the equation, expression, or formula.
+
+Reflect:
+Student explains what they learned and what still feels confusing.
+
+4. Add Sample Stage 1 Lessons
+
+Create these sample lessons:
+
+Lesson 1:
+Understanding Quantity with Counters
+
+Lesson 2:
+Addition as Joining Groups
+
+Lesson 3:
+Subtraction as Taking Away
+
+Lesson 4:
+Multiplication as Equal Groups
+
+Lesson 5:
+Division as Fair Sharing
+
+Lesson 6:
+Fractions with Paper Folding
+
+Lesson 7:
+Triangle Construction Lab
+
+Lesson 8:
+Solving Equations with a Balance Model
+
+5. Add Student Session Mode
+
+Create a “Start Concrete Session” button.
+
+When clicked, the tutor can:
+
+* Select a student
+* Select a lesson
+* Enter materials used
+* Record student observations
+* Rate observation codes
+
+Observation codes:
+
+CF = Conceptual Foundations
+RC = Reasoning Connections
+TR = Transfer of Learning
+CU = Communication and Understanding
+PS = Problem Solving
+
+Rating scale:
+
+0 = Not Observed
+1 = Emerging
+2 = Developing
+3 = Proficient
+4 = Advanced
+
+6. Add Readiness Check
+
+At the end of each Concrete session, ask:
+
+* Can the student explain the physical model?
+* Can the student describe the mathematical relationship?
+* Can the student connect the model to a drawing or diagram?
+* Can the student use correct vocabulary?
+* Is the student ready for Representational Stage?
+
+Store readiness as:
+
+* Not Ready
+* Almost Ready
+* Ready
+
+7. Add Student Progress Tracking
+
+For each student, track:
+
+* Number of Concrete lessons completed
+* Average CF score
+* Average RC score
+* Average TR score
+* Average CU score
+* Average PS score
+* Current CRA stage
+* Recommended next lesson
+* Readiness for Stage 2
+
+8. Add MathGPT Tutor Prompt Page
+
+Create a page called “MathGPT Prompt Builder.”
+
+Include a prewritten Stage 1 Concrete MathGPT prompt:
+
+“You are MathGPT operating in CRA Stage 1: Concrete. Do not begin with formulas or symbolic procedures. Help the student build understanding through objects, physical actions, observation, explanation, and reflection. Use the sequence Explore → Observe → Explain → Connect → Symbolize → Reflect. Ask what materials are available. Use counters, coins, blocks, paper, rulers, string, pencils, measuring cups, or drawings. Track CF, RC, TR, CU, and PS. Do not move to symbols until the student demonstrates understanding of the physical model.”
+
+Add a copy button.
+
+9. Update Navigation
+
+Navigation should include:
+
+* Home
+* Student Intake
+* Student Profiles
+* CRA Dashboard
+* Concrete Lessons
+* Start Concrete Session
+* Progress Dashboard
+* MathGPT Prompt Builder
+* Admin Settings
+
+10. Database Updates
+
+Add tables or models for:
+
+* cra_lessons
+* concrete_sessions
+* session_observation_scores
+* cra_readiness_checks
+* student_cra_progress
+
+11. Design
+
+Use a clean education dashboard style:
+
+* Navy
+* White
+* Light gray
+* Soft gold accents
+* Large buttons
+* Clear cards
+* Mobile responsive layout
+
+12. Seed Data
+
+Add one sample student:
+
+Name: Elijah J
+Grade: 8
+School: Horizon Science Academy
+Primary Focus: Pre-Algebra and Geometry Vocabulary
+Current CRA Stage: Concrete
+Recommended Lesson: Triangle Construction Lab
+
+13. Final Goal
+
+The app should become a working digital companion for the textbook:
+
+The Foundation of Mathematical Understanding
+
+The app should support students from middle school through first-year community college by helping them move through:
+
+Concrete → Representational → Abstract → Transfer → Modeling → Mathematical Independence
+
+Build this update functionally first. Keep advanced AI integration as placeholder comments for future OpenAI API integration.

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>We Convene Math Tutor - Chicago Public Schools Aligned</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>We Convene Math Tutor</h1>
+            <p class="subtitle">Chicago Public Schools Mathematics Support - Grades 6-12 + Resource Center</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="intro-section">
+            <h2>Get Step-by-Step Help with Your Math Problems</h2>
+            <p>Aligned with Chicago Public Schools curriculum standards</p>
+        </section>
+
+        <section id="lms-dashboard" class="lms-dashboard">
+            <h3 class="dashboard-title">Your Learning Paths</h3>
+            <div class="dashboard-layout">
+                <div class="path-cards-grid">
+                    <div class="path-card ctd-card">
+                        <div class="card-icon">🎓</div>
+                        <div class="card-body">
+                            <h4>Northwestern CTD Enrichment</h4>
+                            <p>Competition math, MATHCOUNTS &amp; AMC prep for advanced learners</p>
+                        </div>
+                        <button class="dash-cta-btn" data-grade="ctd-math">Explore CTD</button>
+                    </div>
+                    <div class="path-card uic-card">
+                        <div class="card-icon">🏛️</div>
+                        <div class="card-body">
+                            <h4>UIC ALEKS PPL Prep</h4>
+                            <p>University of Illinois placement test prep &amp; department resources</p>
+                        </div>
+                        <button class="dash-cta-btn" data-grade="uic-help">Explore UIC Prep</button>
+                    </div>
+                    <div class="path-card ged-card">
+                        <div class="card-icon">📋</div>
+                        <div class="card-body">
+                            <h4>Cook County GED Modules</h4>
+                            <p>GED math test preparation with real-world problem sets</p>
+                        </div>
+                        <button class="dash-cta-btn" data-grade="ged">Explore GED Prep</button>
+                    </div>
+                    <div class="path-card resource-card">
+                        <div class="card-icon">📚</div>
+                        <div class="card-body">
+                            <h4>We Convene Resource Center</h4>
+                            <p>TI calculator tutorials, study guides &amp; practice materials</p>
+                        </div>
+                        <button class="dash-cta-btn" data-grade="resource-center">Explore Resources</button>
+                    </div>
+                </div>
+
+                <div class="dashboard-right">
+                    <div class="progress-widget">
+                        <h4 class="widget-title">📊 My Progress</h4>
+                        <div id="progressContent" class="progress-content">
+                            <div class="widget-loading">⏳ Loading…</div>
+                        </div>
+                    </div>
+                    <div class="dashboard-calendar">
+                        <h4 class="widget-title">📅 Book a Tutoring Session</h4>
+                        <link href="https://calendar.google.com/calendar/scheduling-button-script.css" rel="stylesheet">
+                        <script src="https://calendar.google.com/calendar/scheduling-button-script.js" async></script>
+                        <script>
+                        (function() {
+                          var target = document.currentScript;
+                          window.addEventListener('load', function() {
+                            calendar.schedulingButton.load({
+                              url: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ0qbM7JmOMEogH6Z1AnTDxs5xUrj6ZObWNQ3d5Y6V2VOMnexC5vsvnFw3bEs0l484QUJTglG4Pe?gv=true',
+                              color: '#039BE5',
+                              label: 'Book an appointment',
+                              target,
+                            });
+                          });
+                        })();
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="grade-selector">
+            <h3>Select Your Grade Level</h3>
+            <div class="grade-buttons">
+                <button class="grade-btn" data-grade="6">Grade 6</button>
+                <button class="grade-btn" data-grade="7">Grade 7</button>
+                <button class="grade-btn" data-grade="8">Grade 8</button>
+                <button class="grade-btn" data-grade="9">Grade 9</button>
+                <button class="grade-btn" data-grade="10">Grade 10</button>
+                <button class="grade-btn" data-grade="11">Grade 11</button>
+                <button class="grade-btn" data-grade="12">Grade 12</button>
+                <button class="grade-btn python-btn" data-grade="python-coding">🐍 Python Coding</button>
+            </div>
+        </section>
+
+        <section class="problem-type-selector" id="problemTypeSection" style="display: none;">
+            <h3>What type of problem do you need help with?</h3>
+            <div class="problem-types" id="problemTypes">
+                <!-- Dynamic content based on grade selection -->
+            </div>
+        </section>
+
+        <section class="math-input-section">
+            <h3>Enter Your Math Problem</h3>
+            <div class="input-container">
+                <textarea id="mathInput" placeholder="Enter your math expression or equation here...
+Examples:
+• 2x + 3x = 35
+• x^2 - 5x + 6
+• 3(x + 4) - 2x"></textarea>
+                <button id="solveBtn" class="solve-btn">Solve Step by Step</button>
+            </div>
+        </section>
+
+        <section class="examples-section" id="examplesSection">
+            <h3>Example Problems for Your Grade</h3>
+            <div class="examples-grid" id="examplesGrid">
+                <!-- Dynamic examples based on grade -->
+            </div>
+        </section>
+
+        <section class="results-section" id="resultsSection" style="display: none;">
+            <div class="results-header">
+                <h3>Step-by-Step Solution</h3>
+                <button id="struggleToggleBtn" class="struggle-toggle" aria-pressed="false">
+                    🧠 Productive Struggle: OFF
+                </button>
+            </div>
+            <div id="craCard" class="cra-card" style="display: none;"></div>
+            <div id="solutionSteps" class="solution-steps"></div>
+        </section>
+
+        <section class="help-section">
+            <h3>Need Additional Help?</h3>
+            <p>Contact We Convene at School and Home Tutoring Services of Chicago for personalized tutoring sessions. Use the <strong>Book a Tutoring Session</strong> button in the dashboard above to schedule an appointment.</p>
+
+            <div class="accessibility-note">
+                <p><strong>Accessibility:</strong> This tool supports screen readers and keyboard navigation. Use Tab to navigate between elements.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 We Convene at School and Home Tutoring Services of Chicago</p>
+            <p>Aligned with Chicago Public Schools Mathematics Standards</p>
+        </div>
+    </footer>
+
+    <script src="cra-analogies.js"></script>
+    <script src="app.js"></script>
+    <script src="uic-prep.js"></script>
+    <script src="ged-prep.js"></script>
+    <script src="ti-education.js"></script>
+    <script src="ctd-prep.js"></script>
+
+    <!-- Dialogflow Messenger -->
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <df-messenger
+      chat-title="WeConveneMathsChat"
+      agent-id="83c7311e-7a31-4338-8167-e269dc128e21"
+      language-code="en"
+    ></df-messenger>
+</body>
+</html>

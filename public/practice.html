@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Math Practice - We Convene</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .practice-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        
+        .problem-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 1rem 0;
+        }
+        
+        .problem-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .step-solution {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .btn-solve {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        
+        .btn-hint {
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>📖 Interactive Math Practice</h1>
+            <p class="subtitle">Step-by-step solutions aligned with Chicago Public Schools standards</p>
+        </div>
+    </header>
+
+    <main class="practice-container">
+        <div id="practiceProblems"></div>
+        
+        <div class="navigation">
+            <button id="prevBtn" class="btn-secondary">← Previous</button>
+            <span id="problemCounter">Problem 1 of 5</span>
+            <button id="nextBtn" class="btn-secondary">Next →</button>
+        </div>
+    </main>
+
+    <script>
+        class PracticeManager {
+            constructor() {
+                this.currentProblem = 0;
+                this.problems = this.generateProblems();
+                this.init();
+            }
+
+            init() {
+                this.displayCurrentProblem();
+                this.setupNavigation();
+            }
+
+            generateProblems() {
+                // Get grade and topic from URL
+                const urlParts = window.location.pathname.split('/');
+                const grade = urlParts[2] || '6';
+                const topic = urlParts[3] || 'linear-equations';
+
+                return [
+                    {
+                        expression: 'x + 5 = 12',
+                        description: 'Solve for x in this linear equation',
+                        solution: 'x = 7',
+                        steps: [
+                            'Start with: x + 5 = 12',
+                            'Subtract 5 from both sides: x + 5 - 5 = 12 - 5',
+                            'Simplify: x = 7'
+                        ]
+                    },
+                    {
+                        expression: '2x + 3 = 11',
+                        description: 'Solve this two-step equation',
+                        solution: 'x = 4',
+                        steps: [
+                            'Start with: 2x + 3 = 11',
+                            'Subtract 3 from both sides: 2x = 8',
+                            'Divide both sides by 2: x = 4'
+                        ]
+                    },
+                    {
+                        expression: '3(x + 2) = 15',
+                        description: 'Solve using the distributive property',
+                        solution: 'x = 3',
+                        steps: [
+                            'Start with: 3(x + 2) = 15',
+                            'Distribute: 3x + 6 = 15',
+                            'Subtract 6: 3x = 9',
+                            'Divide by 3: x = 3'
+                        ]
+                    }
+                ];
+            }
+
+            displayCurrentProblem() {
+                const problem = this.problems[this.currentProblem];
+                const container = document.getElementById('practiceProblems');
+                
+                container.innerHTML = `
+                    <div class="problem-card">
+                        <div class="problem-number">${this.currentProblem + 1}</div>
+                        <h2>Problem: ${problem.expression}</h2>
+                        <p>${problem.description}</p>
+                        
+                        <div class="problem-actions">
+                            <button class="btn-solve" onclick="practiceManager.showSolution()">Show Solution</button>
+                            <button class="btn-hint" onclick="practiceManager.showHint()">Get Hint</button>
+                        </div>
+                        
+                        <div id="solutionArea"></div>
+                    </div>
+                `;
+                
+                this.updateCounter();
+            }
+
+            showSolution() {
+                const problem = this.problems[this.currentProblem];
+                const solutionArea = document.getElementById('solutionArea');
+                
+                solutionArea.innerHTML = `
+                    <div class="step-solution">
+                        <h3>Step-by-Step Solution:</h3>
+                        ${problem.steps.map((step, index) => 
+                            `<div style="margin: 0.5rem 0;"><strong>Step ${index + 1}:</strong> ${step}</div>`
+                        ).join('')}
+                        <div style="margin-top: 1rem; padding: 1rem; background: #10b981; color: white; border-radius: 8px;">
+                            <strong>Answer: ${problem.solution}</strong>
+                        </div>
+                    </div>
+                `;
+            }
+
+            showHint() {
+                const problem = this.problems[this.currentProblem];
+                const solutionArea = document.getElementById('solutionArea');
+                
+                solutionArea.innerHTML = `
+                    <div class="step-solution">
+                        <h3>💡 Hint:</h3>
+                        <p>${problem.steps[0]}</p>
+                        <p><em>Try the first step and click "Show Solution" if you need more help!</em></p>
+                    </div>
+                `;
+            }
+
+            setupNavigation() {
+                document.getElementById('prevBtn').addEventListener('click', () => {
+                    if (this.currentProblem > 0) {
+                        this.currentProblem--;
+                        this.displayCurrentProblem();
+                    }
+                });
+
+                document.getElementById('nextBtn').addEventListener('click', () => {
+                    if (this.currentProblem < this.problems.length - 1) {
+                        this.currentProblem++;
+                        this.displayCurrentProblem();
+                    }
+                });
+            }
+
+            updateCounter() {
+                document.getElementById('problemCounter').textContent = 
+                    `Problem ${this.currentProblem + 1} of ${this.problems.length}`;
+                
+                document.getElementById('prevBtn').disabled = this.currentProblem === 0;
+                document.getElementById('nextBtn').disabled = this.currentProblem === this.problems.length - 1;
+            }
+        }
+
+        const practiceManager = new PracticeManager();
+    </script>
+</body>
+</html>

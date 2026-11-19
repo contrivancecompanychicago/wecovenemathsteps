@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>We Convene Math Tutor LMS — Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:      #0d1f4c;
+    --navy-deep: #070f29;
+    --navy-mid:  #162660;
+    --gold:      #c9961e;
+    --gold-lt:   #e8b84b;
+    --offwhite:  #f5f7fa;
+    --gray:      #dde3ef;
+    --muted:     #8a9bbf;
+    --display:   'Playfair Display', Georgia, serif;
+    --body:      'Source Sans 3', 'Helvetica Neue', sans-serif;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: #000;
+    overflow: hidden;
+    font-family: var(--body);
+  }
+
+  /* ── Deck wrapper ─────────────────────────────────────── */
+  #deck {
+    position: fixed; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* Aspect-ratio 16:9 stage */
+  #stage {
+    position: relative;
+    width: min(100vw, 177.78vh);
+    height: min(56.25vw, 100vh);
+    overflow: hidden;
+  }
+
+  /* ── Slides ────────────────────────────────────────────── */
+  .slide {
+    position: absolute; inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    overflow: hidden;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* ── Nav controls ──────────────────────────────────────── */
+  #controls {
+    position: fixed;
+    bottom: 2vh; left: 50%;
+    transform: translateX(-50%);
+    display: flex; align-items: center; gap: 1.4vw;
+    z-index: 100;
+    background: rgba(7,15,41,0.72);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(201,150,30,0.25);
+    border-radius: 999px;
+    padding: 0.6vh 1.4vw;
+  }
+  #controls button {
+    background: none; border: none; cursor: pointer;
+    color: var(--gold-lt); font-size: 1.3vw;
+    padding: 0.3vh 0.7vw; border-radius: 4px;
+    transition: background 0.15s;
+    font-family: var(--body);
+  }
+  #controls button:hover { background: rgba(201,150,30,0.18); }
+  #counter {
+    color: var(--muted); font-size: 0.95vw;
+    font-family: var(--body); min-width: 3.5vw; text-align: center;
+  }
+
+  /* ── Progress bar ──────────────────────────────────────── */
+  #progress {
+    position: fixed; top: 0; left: 0;
+    height: 3px; background: var(--gold);
+    transition: width 0.35s ease;
+    z-index: 200;
+  }
+
+  /* ══ SLIDE DESIGNS ══════════════════════════════════════ */
+
+  /* S1 — Title */
+  .s1 {
+    background: linear-gradient(140deg, var(--navy-deep) 0%, var(--navy-mid) 60%, #1a3080 100%);
+    display: flex; flex-direction: column;
+    align-items: flex-start; justify-content: center;
+    padding: 0 8vw;
+  }
+  .s1__rule {
+    width: 6vw; height: 0.35vh;
+    background: var(--gold);
+    margin-bottom: 2.5vh;
+  }
+  .s1__eyebrow {
+    font-family: var(--body); font-size: 1.4vw; font-weight: 600;
+    color: var(--gold-lt); letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 1.8vh;
+  }
+  .s1__title {
+    font-family: var(--display); font-size: 6.5vw; font-weight: 900;
+    color: var(--offwhite); line-height: 1.05; letter-spacing: -0.01em;
+    margin-bottom: 2.5vh; text-wrap: balance;
+  }
+  .s1__title span { color: var(--gold-lt); }
+  .s1__sub {
+    font-family: var(--body); font-size: 1.9vw; font-weight: 300;
+    color: var(--gray); max-width: 46vw; line-height: 1.5;
+  }
+  .s1__badge {
+    position: absolute; right: 7vw; bottom: 8vh;
+    font-family: var(--body); font-size: 1vw; font-weight: 600;
+    color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .s1__corner {
+    position: absolute; bottom: 0; right: 0;
+    width: 38vw; height: 70vh;
+    background: radial-gradient(ellipse at 80% 80%, rgba(201,150,30,0.12) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .s1__dots {
+    position: absolute; top: 6vh; right: 6vw;
+    display: grid; grid-template-columns: repeat(6,1fr); gap: 1.2vw;
+    opacity: 0.18;
+  }
+  .s1__dot { width: 0.4vw; height: 0.4vw; border-radius: 50%; background: var(--gold-lt); }
+
+  /* S2 — Mission */
+  .s2 {
+    background: var(--offwhite);
+    display: flex;
+  }
+  .s2__left {
+    width: 48%; background: var(--navy);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 6vh 5vw;
+  }
+  .s2__label {
+    font-family: var(--body); font-size: 1vw; font-weight: 600;
+    color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 2vh;
+  }
+  .s2__heading {
+    font-family: var(--display); font-size: 4.2vw; font-weight: 700;
+    color: var(--offwhite); line-height: 1.1; margin-bottom: 3vh; text-wrap: balance;
+  }
+  .s2__body {
+    font-family: var(--body); font-size: 1.5vw; font-weight: 300;
+    color: var(--gray); line-height: 1.7;
+  }
+  .s2__right {
+    flex: 1;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 6vh 5vw 6vh 4vw; gap: 2.5vh;
+  }
+  .s2__card {
+    background: #fff;
+    border-left: 0.35vw solid var(--gold);
+    border-radius: 0 0.6vw 0.6vw 0;
+    padding: 1.8vh 2vw;
+    box-shadow: 0 2px 12px rgba(13,31,76,0.07);
+  }
+  .s2__card-title {
+    font-family: var(--body); font-size: 1.1vw; font-weight: 600;
+    color: var(--navy); margin-bottom: 0.5vh;
+  }
+  .s2__card-text {
+    font-family: var(--body); font-size: 1.1vw; font-weight: 300;
+    color: #4a5568; line-height: 1.5;
+  }
+
+  /* S3 — CPS Curriculum */
+  .s3 {
+    background: linear-gradient(160deg, var(--navy-deep) 0%, #0f2a60 100%);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 5vh 6vw;
+  }
+  .s3__label {
+    font-family: var(--body); font-size: 1vw; font-weight: 600;
+    color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 1.5vh;
+  }
+  .s3__heading {
+    font-family: var(--display); font-size: 4vw; font-weight: 700;
+    color: var(--offwhite); text-align: center; margin-bottom: 1.5vh; text-wrap: balance;
+  }
+  .s3__sub {
+    font-family: var(--body); font-size: 1.4vw; font-weight: 300;
+    color: var(--muted); text-align: center; margin-bottom: 4vh; max-width: 56vw;
+  }
+  .s3__grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5vw;
+    width: 100%;
+  }
+  .s3__cell {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201,150,30,0.2);
+    border-radius: 0.8vw;
+    padding: 2.2vh 1.5vw;
+    text-align: center;
+  }
+  .s3__grade {
+    font-family: var(--display); font-size: 2.8vw; font-weight: 900;
+    color: var(--gold-lt); margin-bottom: 0.8vh;
+  }
+  .s3__course {
+    font-family: var(--body); font-size: 1.05vw; font-weight: 400;
+    color: var(--gray); line-height: 1.4;
+  }
+  .s3__plus {
+    grid-column: span 4;
+    background: rgba(201,150,30,0.12);
+    border: 1px solid rgba(201,150,30,0.35);
+    border-radius: 0.8vw;
+    padding: 1.5vh 2vw;
+    display: flex; align-items: center; justify-content: center; gap: 3vw;
+  }
+  .s3__plus-item {
+    font-family: var(--body); font-size: 1.15vw; font-weight: 600;
+    color: var(--gold-lt);
+  }
+
+  /* S4 — CRA Framework */
+  .s4 {
+    background: var(--offwhite);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 4vh 6vw;
+  }
+  .s4__label {
+    font-family: var(--body); font-size: 1vw; font-weight: 600;
+    color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 1.5vh;
+  }
+  .s4__heading {
+    font-family: var(--display); font-size: 4vw; font-weight: 700;
+    color: var(--navy); text-align: center; margin-bottom: 1vh;
+  }
+  .s4__sub {
+    font-family: var(--body); font-size: 1.4vw; font-weight: 300;
+    color: #6b7a99; text-align: center; margin-bottom: 4vh;
+  }
+  .s4__row {
+    display: flex; align-items: stretch; gap: 0; width: 100%;
+    border-radius: 1vw; overflow: hidden;
+    box-shadow: 0 4px 32px rgba(13,31,76,0.12);
+  }
+  .s4__stage {
+    flex: 1;
+    padding: 3.5vh 2.5vw;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .s4__stage:nth-child(1) { background: var(--navy); }
+  .s4__stage:nth-child(2) { background: #1a3a8a; }
+  .s4__stage:nth-child(3) { background: #1e4aa0; }
+  .s4__num {
+    font-family: var(--display); font-size: 5vw; font-weight: 900;
+    color: rgba(255,255,255,0.1); line-height: 1; margin-bottom: 0.5vh;
+  }
+  .s4__stage-label {
+    font-family: var(--body); font-size: 0.9vw; font-weight: 600;
+    color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 1vh;
+  }
+  .s4__stage-title {
+    font-family: var(--display); font-size: 2.2vw; font-weight: 700;
+    color: var(--offwhite); margin-bottom: 1.2vh;
+  }
+  .s4__stage-text {
+    font-family: var(--body); font-size: 1.1vw; font-weight: 300;
+    color: var(--gray); line-height: 1.6;
+  }
+  .s4__divider {
+    width: 2px; background: rgba(201,150,30,0.3); flex-shrink: 0;
+  }
+  .s4__path {
+    margin-top: 3vh;
+    font-family: var(--body); font-size: 1.15vw; font-weight: 400;
+    color: #6b7a99; text-align: center; letter-spacing: 0.08em;
+  }
+  .s4__path strong { color: var(--navy); font-weight: 600; }
+
+  /* S5 — Concrete Stage */
+  .s5 {
+    background: linear-gradient(135deg, #0a1830 0%, #0d2050 55%, #112a6a 100%);
+    display: flex;
+  }
+  .s5__left {
+    width: 44%; display: flex; flex-direction: column; justify-content: center;
+    padding: 6vh 4vw 6vh 6vw;
+  }
+  .s5__label {
+    font-family: var(--body); font-size: 1vw; font-weight: 600;
+    color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 1.5vh;
+  }
+  .s5__heading {
+    font-family: var(--display); font-size: 4.5vw; font-weight: 900;
+    color: var(--offwhite); line-height: 1.05; margin-bottom: 2vh;
+  }
+  .s5__heading em { color: var(--gold-lt); font-style: normal; }
+  .s5__desc {
+    font-family: var(--body); font-size: 1.35vw; font-weight: 300;
+    color: var(--gray); line-height: 1.7; margin-bottom: 3vh;
+  }
+  .s5__right {
+    flex: 1; display: flex; flex-direction: column; justify-content: center;
+    padding: 5vh 5vw 5vh 3vw; gap: 1.4vh;
+  }
+  .s5__step {
+    display: flex; align-items: flex-start; gap: 1.2vw;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 0.6vw;
+    padding: 1.4vh 1.6vw;
+  }
+  .s5__step-num {
+    font-family: var(--display); font-size: 2vw; font-weight: 900;
+    color: var(--gold); flex-shrink: 0; line-height: 1; min-width: 2.5vw;
+  }
+  .s5__step-title {
+    font-family: var(--body); font-size: 1.1vw; font-weight: 600;
+    color: var(--offwhite); margin-bottom: 0.3vh;
+  }
+  .s5__step-text {
+    font-family: var(--body); font-size: 1vw; font-weight: 300;
+    color: var(--muted); line-height: 1.4;
+  }
+
+  /* S6 — Observation Codes */
+  .s6 {
+    background: var(--offwhite);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 4vh 6vw;
+  }
+  .s6__label {
+    font-family: var(--body); font-size: 1vw; font-weight: 600;
+    color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 1.5vh;
+  }
+  .s6__heading {
+    font-family: var(--display); font-size: 3.8vw; font-weight: 700;
+    color: var(--navy); text-align: center; margin-bottom: 1vh;
+  }
+  .s6__sub {
+    font-family: var(--body); font-size: 1.35vw; font-weight: 300;
+    color: #6b7a99; text-align: center; margin-bottom: 3.5vh;
+  }
+  .s6__grid {
+    display: grid; grid-template-columns: repeat(5,1fr); gap: 1.4vw; width: 100%;
+  }
+  .s6__code {
+    background: var(--navy);
+    border-radius: 0.8vw; padding: 2.5vh 1.5vw;
+    text-align: center;
+  }
+  .s6__abbr {
+    font-family: var(--display); font-size: 3vw; font-weight: 900;
+    color: var(--gold-lt); margin-bottom: 1vh;
+  }
+  .s6__name {
+    font-family: var(--body); font-size: 1vw; font-weight: 600;
+    color: var(--offwhite); margin-bottom: 0.8vh;
+  }
+  .s6__desc-text {
+    font-family: var(--body); font-size: 0.9vw; font-weight: 300;
+    color: var(--muted); line-height: 1.4;
+  }
+  .s6__scale {
+    margin-top: 3vh; display: flex; gap: 1.5vw; align-items: center;
+  }
+  .s6__scale-label {
+    font-family: var(--body); font-size: 1vw; font-weight: 600;
+    color: var(--navy); margin-right: 0.5vw;
+  }
+  .s6__pip {
+    display: flex; flex-direction: column; align-items: center; gap: 0.4vh;
+  }
+  .s6__pip-num {
+    width: 3vw; height: 3vw; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display); font-size: 1.3vw; font-weight: 900; color: #fff;
+  }
+  .s6__pip-text {
+    font-family: var(--body); font-size: 0.8vw; font-weight: 400;
+    color: #6b7a99; text-align: center;
+  }
+
+  /* S7 — Math practice */
+  .s7 {
+    background: linear-gradient(150deg, #070f29 0%, #0d1f4c 50%, #162660 100%);
+    display: flex;
+  }
+  .s7__left {
+    width: 50%; display: flex; flex-direction: column; justify-content: center;
+    padding: 6vh 4vw 6vh 7vw;
+  }
+  .s7__label {
+    font-family: var(--body); font-size: 1vw; font-weight: 600;
+    color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 1.5vh;
+  }
+  .s7__heading {
+    font-family: var(--display); font-size: 4.2vw; font-weight: 900;
+    color: var(--offwhite); line-height: 1.1; margin-bottom: 2vh;
+  }
+  .s7__desc {
+    font-family: var(--body); font-size: 1.4vw; font-weight: 300;
+    color: var(--gray); line-height: 1.7;
+  }
+  .s7__right {
+    flex: 1; display: flex; flex-direction: column; justify-content: center;
+    padding: 5vh 5vw; gap: 1.5vh;
+  }
+  .s7__feature {
+    display: flex; align-items: flex-start; gap: 1.2vw;
+    padding: 1.6vh 1.8vw;
+    border-left: 0.3vw solid var(--gold);
+    background: rgba(255,255,255,0.04);
+    border-radius: 0 0.5vw 0.5vw 0;
+  }
+  .s7__icon {
+    font-size: 1.8vw; flex-shrink: 0;
+  }
+  .s7__feat-title {
+    font-family: var(--body); font-size: 1.1vw; font-weight: 600;
+    color: var(--offwhite); margin-bottom: 0.3vh;
+  }
+  .s7__feat-text {
+    font-family: var(--body); font-size: 1vw; font-weight: 300;
+    color: var(--muted); line-height: 1.4;
+  }
+
+  /* S8 — Progress Dashboard */
+  .s8 {
+    background: var(--offwhite);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 4vh 6vw;
+  }
+  .s8__label {
+    font-family: var(--body); font-size: 1vw; font-weight: 600;
+    color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 1.5vh;
+  }
+  .s8__heading {
+    font-family: var(--display); font-size: 3.8vw; font-weight: 700;
+    color: var(--navy); text-align: center; margin-bottom: 1vh;
+  }
+  .s8__sub {
+    font-family: var(--body); font-size: 1.35vw; font-weight: 300;
+    color: #6b7a99; text-align: center; margin-bottom: 3.5vh;
+  }
+  .s8__student {
+    background: var(--navy);
+    border-radius: 1.2vw; padding: 3vh 3vw; width: 100%;
+    box-shadow: 0 4px 32px rgba(13,31,76,0.15);
+  }
+  .s8__stu-header {
+    display: flex; align-items: center; gap: 2vw; margin-bottom: 2.5vh;
+    padding-bottom: 2vh; border-bottom: 1px solid rgba(201,150,30,0.25);
+  }
+  .s8__avatar {
+    width: 5vw; height: 5vw; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold) 0%, #9b6e10 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display); font-size: 2.2vw; font-weight: 900; color: #fff;
+    flex-shrink: 0;
+  }
+  .s8__stu-name {
+    font-family: var(--display); font-size: 2.2vw; font-weight: 700; color: var(--offwhite);
+  }
+  .s8__stu-meta {
+    font-family: var(--body); font-size: 1.1vw; font-weight: 300;
+    color: var(--muted); margin-top: 0.3vh;
+  }
+  .s8__stu-badge {
+    margin-left: auto;
+    background: rgba(201,150,30,0.15);
+    border: 1px solid rgba(201,150,30,0.4);
+    border-radius: 0.5vw; padding: 0.7vh 1.2vw;
+    font-family: var(--body); font-size: 1vw; font-weight: 600;
+    color: var(--gold-lt);
+  }
+  .s8__bars {
+    display: grid; grid-template-columns: repeat(5,1fr); gap: 1.5vw;
+  }
+  .s8__bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 0.8vh; }
+  .s8__bar-bg {
+    width: 2.5vw; height: 10vh;
+    background: rgba(255,255,255,0.07); border-radius: 1vw;
+    overflow: hidden; display: flex; align-items: flex-end;
+  }
+  .s8__bar-fill {
+    width: 100%; border-radius: 1vw;
+    background: linear-gradient(0deg, var(--gold) 0%, var(--gold-lt) 100%);
+  }
+  .s8__bar-code {
+    font-family: var(--body); font-size: 1vw; font-weight: 600; color: var(--gold-lt);
+  }
+  .s8__bar-val {
+    font-family: var(--display); font-size: 1.4vw; font-weight: 900; color: var(--offwhite);
+  }
+
+  /* S9 — Stack */
+  .s9 {
+    background: linear-gradient(150deg, #070f29 0%, #101d45 100%);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 4vh 6vw;
+  }
+  .s9__label {
+    font-family: var(--body); font-size: 1vw; font-weight: 600;
+    color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 1.5vh;
+  }
+  .s9__heading {
+    font-family: var(--display); font-size: 4vw; font-weight: 700;
+    color: var(--offwhite); text-align: center; margin-bottom: 1vh;
+  }
+  .s9__sub {
+    font-family: var(--body); font-size: 1.35vw; font-weight: 300;
+    color: var(--muted); text-align: center; margin-bottom: 4vh;
+  }
+  .s9__cols {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 2vw; width: 100%;
+  }
+  .s9__col-head {
+    font-family: var(--body); font-size: 0.9vw; font-weight: 600;
+    color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 1.5vh; padding-bottom: 0.8vh;
+    border-bottom: 1px solid rgba(201,150,30,0.3);
+  }
+  .s9__pill {
+    display: inline-block;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 0.4vw;
+    padding: 0.6vh 1vw; margin: 0.3vh 0.3vw 0.3vh 0;
+    font-family: var(--body); font-size: 1vw; font-weight: 400; color: var(--gray);
+  }
+
+  /* S10 — Closing */
+  .s10 {
+    background: linear-gradient(140deg, #070f29 0%, var(--navy-mid) 50%, #0f2a60 100%);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 6vh 8vw;
+  }
+  .s10__rule {
+    width: 5vw; height: 0.3vh; background: var(--gold); margin: 0 auto 3vh;
+  }
+  .s10__heading {
+    font-family: var(--display); font-size: 6vw; font-weight: 900;
+    color: var(--offwhite); line-height: 1.05; margin-bottom: 2.5vh;
+    text-wrap: balance;
+  }
+  .s10__heading em { color: var(--gold-lt); font-style: normal; }
+  .s10__sub {
+    font-family: var(--body); font-size: 1.7vw; font-weight: 300;
+    color: var(--gray); max-width: 52vw; line-height: 1.6; margin: 0 auto 4.5vh;
+  }
+  .s10__path {
+    font-family: var(--body); font-size: 1.2vw; font-weight: 600;
+    color: var(--gold-lt); letter-spacing: 0.12em;
+    text-transform: uppercase; margin-bottom: 2vh;
+  }
+  .s10__org {
+    font-family: var(--body); font-size: 1.1vw; font-weight: 300;
+    color: var(--muted);
+  }
+  .s10__dots {
+    position: absolute; bottom: 5vh; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 0.8vw;
+  }
+  .s10__dot { width: 0.4vw; height: 0.4vw; border-radius: 50%; background: var(--gold-lt); opacity: 0.35; }
+  .s10__dot:nth-child(2) { opacity: 0.6; }
+  .s10__dot:nth-child(3) { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<div id="deck">
+  <div id="stage">
+
+    <!-- S1: Title -->
+    <div class="slide s1 active">
+      <div class="s1__dots">
+        <div class="s1__dot"></div><div class="s1__dot"></div><div class="s1__dot"></div>
+        <div class="s1__dot"></div><div class="s1__dot"></div><div class="s1__dot"></div>
+        <div class="s1__dot"></div><div class="s1__dot"></div><div class="s1__dot"></div>
+        <div class="s1__dot"></div><div class="s1__dot"></div><div class="s1__dot"></div>
+      </div>
+      <div class="s1__rule"></div>
+      <div class="s1__eyebrow">We Convene Home &amp; School Tutoring</div>
+      <div class="s1__title">Math Tutor <span>LMS</span></div>
+      <div class="s1__sub">A full-featured Learning Management System aligned with the Chicago Public Schools curriculum for grades 6&ndash;12.</div>
+      <div class="s1__corner"></div>
+      <div class="s1__badge">EDUISx Instructional Companion</div>
+    </div>
+
+    <!-- S2: Mission -->
+    <div class="slide s2">
+      <div class="s2__left">
+        <div class="s2__label">Why We Built This</div>
+        <div class="s2__heading">Closing the Gap in Math Readiness</div>
+        <div class="s2__body">Students moving from middle school to community college need more than practice problems &mdash; they need a structured path from concrete understanding to abstract mastery.</div>
+      </div>
+      <div class="s2__right">
+        <div class="s2__card">
+          <div class="s2__card-title">Aligned Curriculum</div>
+          <div class="s2__card-text">Every lesson mapped to CPS scope and sequence for grades 6&ndash;12 plus community college prep.</div>
+        </div>
+        <div class="s2__card">
+          <div class="s2__card-title">Structured Progression</div>
+          <div class="s2__card-text">Students move through Concrete, Representational, and Abstract stages at their own pace.</div>
+        </div>
+        <div class="s2__card">
+          <div class="s2__card-title">Real-Time Mastery Tracking</div>
+          <div class="s2__card-text">Tutors and teachers see exactly where each student stands and what comes next.</div>
+        </div>
+        <div class="s2__card">
+          <div class="s2__card-title">Guided Math Practice</div>
+          <div class="s2__card-text">Grade-specific examples and step-by-step solutions support independent learning.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S3: CPS Alignment -->
+    <div class="slide s3">
+      <div class="s3__label">Curriculum Alignment</div>
+      <div class="s3__heading">Grades 6&ndash;12, CPS-Aligned</div>
+      <div class="s3__sub">Every grade band is mapped to Chicago Public Schools standards, from Pre-Algebra through Precalculus and beyond.</div>
+      <div class="s3__grid">
+        <div class="s3__cell">
+          <div class="s3__grade">6</div>
+          <div class="s3__course">Ratios, Rates &amp; Expressions</div>
+        </div>
+        <div class="s3__cell">
+          <div class="s3__grade">7</div>
+          <div class="s3__course">Proportional Relationships &amp; Integers</div>
+        </div>
+        <div class="s3__cell">
+          <div class="s3__grade">8</div>
+          <div class="s3__course">Linear Functions &amp; Geometry</div>
+        </div>
+        <div class="s3__cell">
+          <div class="s3__grade">9</div>
+          <div class="s3__course">Algebra I &amp; Coordinate Geometry</div>
+        </div>
+        <div class="s3__cell">
+          <div class="s3__grade">10</div>
+          <div class="s3__course">Geometry &amp; Intro to Statistics</div>
+        </div>
+        <div class="s3__cell">
+          <div class="s3__grade">11</div>
+          <div class="s3__course">Algebra II &amp; Functions</div>
+        </div>
+        <div class="s3__cell">
+          <div class="s3__grade">12</div>
+          <div class="s3__course">Precalculus &amp; Data Analysis</div>
+        </div>
+        <div class="s3__cell">
+          <div class="s3__grade">+</div>
+          <div class="s3__course">Python &amp; Community College Prep</div>
+        </div>
+        <div class="s3__plus">
+          <div class="s3__plus-item">CTD Enrichment</div>
+          <div class="s3__plus-item">UIC Dual Credit</div>
+          <div class="s3__plus-item">GED Preparation</div>
+          <div class="s3__plus-item">Math Practice</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S4: CRA Framework -->
+    <div class="slide s4">
+      <div class="s4__label">Learning Framework</div>
+      <div class="s4__heading">Concrete &rarr; Representational &rarr; Abstract</div>
+      <div class="s4__sub">A research-backed instructional progression that builds deep understanding before symbols.</div>
+      <div class="s4__row">
+        <div class="s4__stage">
+          <div class="s4__num">01</div>
+          <div class="s4__stage-label">Stage 1</div>
+          <div class="s4__stage-title">Concrete</div>
+          <div class="s4__stage-text">Students use physical objects, manipulatives, and hands-on exploration to build intuition before any formula is introduced.</div>
+        </div>
+        <div class="s4__divider"></div>
+        <div class="s4__stage">
+          <div class="s4__num">02</div>
+          <div class="s4__stage-label">Stage 2</div>
+          <div class="s4__stage-title">Representational</div>
+          <div class="s4__stage-text">Students draw diagrams, tables, number lines, and visual models that bridge the physical to the symbolic.</div>
+        </div>
+        <div class="s4__divider"></div>
+        <div class="s4__stage">
+          <div class="s4__num">03</div>
+          <div class="s4__stage-label">Stage 3</div>
+          <div class="s4__stage-title">Abstract</div>
+          <div class="s4__stage-text">Only after true understanding, students write equations, expressions, and formal procedures with confidence.</div>
+        </div>
+      </div>
+      <div class="s4__path">Full path: <strong>Concrete &rarr; Representational &rarr; Abstract &rarr; Transfer &rarr; Modeling &rarr; Mathematical Independence</strong></div>
+    </div>
+
+    <!-- S5: Concrete Lessons -->
+    <div class="slide s5">
+      <div class="s5__left">
+        <div class="s5__label">Stage 1 in Action</div>
+        <div class="s5__heading">Concrete <em>Lesson</em> Library</div>
+        <div class="s5__desc">8 ready-to-use lessons across 7 math domains. Every lesson follows the same proven sequence.</div>
+      </div>
+      <div class="s5__right">
+        <div class="s5__step">
+          <div class="s5__step-num">E</div>
+          <div>
+            <div class="s5__step-title">Explore</div>
+            <div class="s5__step-text">Student uses physical objects or manipulatives</div>
+          </div>
+        </div>
+        <div class="s5__step">
+          <div class="s5__step-num">O</div>
+          <div>
+            <div class="s5__step-title">Observe</div>
+            <div class="s5__step-text">Describes what changed, what stayed the same, what they notice</div>
+          </div>
+        </div>
+        <div class="s5__step">
+          <div class="s5__step-num">E</div>
+          <div>
+            <div class="s5__step-title">Explain</div>
+            <div class="s5__step-text">States the mathematical relationship in their own words</div>
+          </div>
+        </div>
+        <div class="s5__step">
+          <div class="s5__step-num">C</div>
+          <div>
+            <div class="s5__step-title">Connect</div>
+            <div class="s5__step-text">Links the physical model to a drawing, table, or number line</div>
+          </div>
+        </div>
+        <div class="s5__step">
+          <div class="s5__step-num">S</div>
+          <div>
+            <div class="s5__step-title">Symbolize</div>
+            <div class="s5__step-text">Writes the equation or formula only after understanding</div>
+          </div>
+        </div>
+        <div class="s5__step">
+          <div class="s5__step-num">R</div>
+          <div>
+            <div class="s5__step-title">Reflect</div>
+            <div class="s5__step-text">Explains what they learned and what still feels unclear</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S6: Observation Codes -->
+    <div class="slide s6">
+      <div class="s6__label">Assessment System</div>
+      <div class="s6__heading">Observation Codes &amp; Rating Scale</div>
+      <div class="s6__sub">Tutors rate five competency dimensions during every Concrete session.</div>
+      <div class="s6__grid">
+        <div class="s6__code">
+          <div class="s6__abbr">CF</div>
+          <div class="s6__name">Conceptual Foundations</div>
+          <div class="s6__desc-text">Core understanding of mathematical ideas</div>
+        </div>
+        <div class="s6__code">
+          <div class="s6__abbr">RC</div>
+          <div class="s6__name">Reasoning Connections</div>
+          <div class="s6__desc-text">Linking concepts to patterns and logic</div>
+        </div>
+        <div class="s6__code">
+          <div class="s6__abbr">TR</div>
+          <div class="s6__name">Transfer of Learning</div>
+          <div class="s6__desc-text">Applying skills to new contexts</div>
+        </div>
+        <div class="s6__code">
+          <div class="s6__abbr">CU</div>
+          <div class="s6__name">Communication &amp; Understanding</div>
+          <div class="s6__desc-text">Explaining ideas with correct vocabulary</div>
+        </div>
+        <div class="s6__code">
+          <div class="s6__abbr">PS</div>
+          <div class="s6__name">Problem Solving</div>
+          <div class="s6__desc-text">Strategic approach to novel problems</div>
+        </div>
+      </div>
+      <div class="s6__scale">
+        <div class="s6__scale-label">Rating Scale:</div>
+        <div class="s6__pip"><div class="s6__pip-num" style="background:#334155">0</div><div class="s6__pip-text">Not<br>Observed</div></div>
+        <div class="s6__pip"><div class="s6__pip-num" style="background:#475569">1</div><div class="s6__pip-text">Emerging</div></div>
+        <div class="s6__pip"><div class="s6__pip-num" style="background:#1e40af">2</div><div class="s6__pip-text">Developing</div></div>
+        <div class="s6__pip"><div class="s6__pip-num" style="background:#9b6e10">3</div><div class="s6__pip-text">Proficient</div></div>
+        <div class="s6__pip"><div class="s6__pip-num" style="background:#c9961e">4</div><div class="s6__pip-text">Advanced</div></div>
+      </div>
+    </div>
+
+    <!-- S7: Math Practice -->
+    <div class="slide s7">
+      <div class="s7__left">
+        <div class="s7__label">Practice</div>
+        <div class="s7__heading">Step-by-Step Math Support</div>
+        <div class="s7__desc">Students explore grade-specific examples and follow worked solutions to build mathematical understanding.</div>
+      </div>
+      <div class="s7__right">
+        <div class="s7__feature">
+          <div class="s7__icon">&#128275;</div>
+          <div>
+            <div class="s7__feat-title">Direct Access</div>
+            <div class="s7__feat-text">Use the math solver without connecting an external account</div>
+          </div>
+        </div>
+        <div class="s7__feature">
+          <div class="s7__icon">&#128218;</div>
+          <div>
+            <div class="s7__feat-title">Grade-Specific Examples</div>
+            <div class="s7__feat-text">Explore algebra examples for grades 6 through 12</div>
+          </div>
+        </div>
+        <div class="s7__feature">
+          <div class="s7__icon">&#128203;</div>
+          <div>
+            <div class="s7__feat-title">Expression Simplification</div>
+            <div class="s7__feat-text">Combine like terms and apply mathematical transformations step by step</div>
+          </div>
+        </div>
+        <div class="s7__feature">
+          <div class="s7__icon">&#128200;</div>
+          <div>
+            <div class="s7__feat-title">Equation Solving</div>
+            <div class="s7__feat-text">Follow each transformation from the original equation toward a solution</div>
+          </div>
+        </div>
+        <div class="s7__feature">
+          <div class="s7__icon">&#128274;</div>
+          <div>
+            <div class="s7__feat-title">Step Explanations</div>
+            <div class="s7__feat-text">Read explanations alongside each mathematical transformation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S8: Student Progress -->
+    <div class="slide s8">
+      <div class="s8__label">Progress Tracking</div>
+      <div class="s8__heading">Student Mastery Dashboard</div>
+      <div class="s8__sub">Every session builds a living record of where each student stands across all five competency codes.</div>
+      <div class="s8__student">
+        <div class="s8__stu-header">
+          <div class="s8__avatar">EJ</div>
+          <div>
+            <div class="s8__stu-name">Elijah J.</div>
+            <div class="s8__stu-meta">Grade 8 &middot; Horizon Science Academy &middot; Pre-Algebra &amp; Geometry</div>
+          </div>
+          <div class="s8__stu-badge">CRA Stage: Concrete</div>
+        </div>
+        <div class="s8__bars">
+          <div class="s8__bar-wrap">
+            <div class="s8__bar-bg"><div class="s8__bar-fill" style="height:72%"></div></div>
+            <div class="s8__bar-code">CF</div>
+            <div class="s8__bar-val">3.2</div>
+          </div>
+          <div class="s8__bar-wrap">
+            <div class="s8__bar-bg"><div class="s8__bar-fill" style="height:55%"></div></div>
+            <div class="s8__bar-code">RC</div>
+            <div class="s8__bar-val">2.5</div>
+          </div>
+          <div class="s8__bar-wrap">
+            <div class="s8__bar-bg"><div class="s8__bar-fill" style="height:48%"></div></div>
+            <div class="s8__bar-code">TR</div>
+            <div class="s8__bar-val">2.1</div>
+          </div>
+          <div class="s8__bar-wrap">
+            <div class="s8__bar-bg"><div class="s8__bar-fill" style="height:80%"></div></div>
+            <div class="s8__bar-code">CU</div>
+            <div class="s8__bar-val">3.5</div>
+          </div>
+          <div class="s8__bar-wrap">
+            <div class="s8__bar-bg"><div class="s8__bar-fill" style="height:62%"></div></div>
+            <div class="s8__bar-code">PS</div>
+            <div class="s8__bar-val">2.8</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S9: Tech Stack -->
+    <div class="slide s9">
+      <div class="s9__label">Platform Architecture</div>
+      <div class="s9__heading">Built to Scale</div>
+      <div class="s9__sub">A pragmatic, maintainable stack that runs on any Node.js host with zero vendor lock-in.</div>
+      <div class="s9__cols">
+        <div>
+          <div class="s9__col-head">Backend</div>
+          <span class="s9__pill">Node.js</span>
+          <span class="s9__pill">Express</span>
+          <span class="s9__pill">PostgreSQL</span>
+          <span class="s9__pill">mathsteps</span>
+        </div>
+        <div>
+          <div class="s9__col-head">Frontend</div>
+          <span class="s9__pill">Vanilla HTML/CSS/JS</span>
+          <span class="s9__pill">Google Fonts</span>
+          <span class="s9__pill">Responsive Grid</span>
+          <span class="s9__pill">XSS-safe rendering</span>
+          <span class="s9__pill">Google Calendar API</span>
+        </div>
+        <div>
+          <div class="s9__col-head">Infrastructure</div>
+          <span class="s9__pill">Replit Hosting</span>
+          <span class="s9__pill">DATABASE_URL</span>
+          <span class="s9__pill">AI-ready (OpenAI)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- S10: Closing -->
+    <div class="slide s10">
+      <div class="s10__rule"></div>
+      <div class="s10__heading">Building the <em>Foundation</em><br>of Mathematical Understanding</div>
+      <div class="s10__sub">From concrete manipulatives to abstract mastery &mdash; We Convene guides every student through the full arc of mathematical thinking.</div>
+      <div class="s10__path">Concrete &rarr; Representational &rarr; Abstract &rarr; Transfer &rarr; Modeling &rarr; Independence</div>
+      <div class="s10__org">We Convene Home &amp; School Tutoring Services &middot; EDUISx LMS</div>
+      <div class="s10__dots">
+        <div class="s10__dot"></div>
+        <div class="s10__dot"></div>
+        <div class="s10__dot"></div>
+      </div>
+    </div>
+
+  </div><!-- /stage -->
+</div><!-- /deck -->
+
+<div id="controls">
+  <button id="btn-prev" title="Previous (&#8592;)">&#8592;</button>
+  <span id="counter">1 / 10</span>
+  <button id="btn-next" title="Next (&#8594;)">&#8594;</button>
+</div>
+
+<script>
+  const slides  = Array.from(document.querySelectorAll('.slide'));
+  const counter = document.getElementById('counter');
+  const bar     = document.getElementById('progress');
+  const total   = slides.length;
+  let current   = 0;
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    current = (n + total) % total;
+    slides[current].classList.add('active');
+    counter.textContent = (current + 1) + ' / ' + total;
+    bar.style.width = ((current + 1) / total * 100) + '%';
+  }
+
+  document.getElementById('btn-prev').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('btn-next').addEventListener('click', () => goTo(current + 1));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ')  goTo(current + 1);
+    if (e.key === 'ArrowLeft')                     goTo(current - 1);
+  });
+
+  /* Touch swipe */
+  let touchX = null;
+  document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; });
+  document.addEventListener('touchend',   e => {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 40) goTo(dx < 0 ? current + 1 : current - 1);
+    touchX = null;
+  });
+
+  goTo(0);
+</script>
+</body>
+</html>
