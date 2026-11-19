@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "weconvene-mathsteps-agent"
+version = "0.1.0"
+description = "A deterministic Python tutoring agent for the We Convene MathSteps platform"
+readme = "AGENT.md"
+requires-python = ">=3.10"
+license = {text = "Apache-2.0"}
+authors = [
+  {name = "Contrivance Company Chicago"}
+]
+keywords = ["math", "tutoring", "education", "agent", "fastapi"]
+dependencies = [
+  "fastapi>=0.110,<1.0",
+  "uvicorn[standard]>=0.27,<1.0"
+]
+
+[project.optional-dependencies]
+dev = [
+  "build>=1.2,<2.0",
+  "twine>=5.0,<7.0"
+]
+
+[project.scripts]
+weconvene-mathsteps-agent = "agent.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/contrivancecompanychicago/wecovenemathsteps"
+Repository = "https://github.com/contrivancecompanychicago/wecovenemathsteps.git"
+
+[tool.setuptools.packages.find]
+include = ["agent*"]

@@ -1,0 +1,7 @@
+from agent import __product__, __version__
+
+app = FastAPI(
+    title=__product__,
+    description="A lightweight tutoring API that coaches learners using mathsteps output.",
+    version=__version__,
+)
