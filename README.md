@@ -2,52 +2,44 @@
 
 A comprehensive mathematics tutoring platform aligned with Chicago Public Schools (CPS) curriculum standards for grades 6-12, featuring specialized support for college placement and adult education.
 
-## 🚀 Key Features
+## Key Features
 
 - **Step-by-Step Math Solver:** Powered by `mathsteps`, providing detailed breakdowns of algebraic equations and simplifications.
 - **CPS Aligned Curriculum:** Specialized content for Grades 6 through 12.
-- **We Convene Math Resource Center:** A centralized hub for:
-  - **Texas Instruments Calculator Tutorials:** Comprehensive guides for TI-30XS MultiView™ (GED Approved) and TI-84 Plus CE.
-  - **Study Materials:** Formula reference sheets, video tutorial library, practice worksheets, and study strategies.
-- **Northwestern University CTD Math Help:** Specialized middle school math courses and enrichment programs (both online and in-person) from the Center for Talent Development.
-- **Cook County GED Prep:** Dedicated modules for GED Mathematics test preparation.
-- **UIC Math Placement Prep:** Specialized resources for students preparing for the ALEKS PPL assessment and UIC mathematics courses.
-- **Python for Mathematics:** "Everybody Can Code Python" section focusing on mathematical programming and computational thinking.
+- **We Convene Math Resource Center:** Calculator tutorials, study materials, formula references, video lessons, worksheets, and study strategies.
+- **Northwestern University CTD Math Help:** Middle school math enrichment resources.
+- **Cook County GED Prep** and **UIC Math Placement Prep**.
+- **Python for Mathematics:** Introductory mathematical programming material.
+- **We Convene MathSteps Agent:** A separate, deterministic Python service for hints and explanations based on existing mathsteps transformations.
 
-## 🛠️ Integrated Tools & Services
+## Technology
 
-- **Interactive Support:**
-  - **WeConveneMathChat:** An AI-powered assistant (Dialogflow) for immediate math support.
-  - **Google Calendar Scheduling:** Direct booking for personalized tutoring sessions with We Convene staff.
-- **Core Technology:**
-  - **Node.js Express Backend:** Serves the interactive web application.
-  - **Mathsteps Library:** Handles complex mathematical symbolic computation.
+- Node.js and Express serve the website, solver API, and student progress endpoints.
+- PostgreSQL stores student profiles and progress when `DATABASE_URL` is configured.
+- Python and FastAPI power the tutoring agent service. The Python service is independent of the existing Express app.
 
-## 📂 Project Structure
+## Run the existing website
 
-- `server.js`: Express server configuration.
-- `public/`:
-  - `index.html`: Main landing page and UI structure.
-  - `app.js`: Core application logic and CPS standards data.
-  - `styles.css`: Custom responsive styling with specialized themes (CTD, Resource Center, etc.).
-  - `ctd-prep.js`: Northwestern CTD program logic.
-  - `ged-prep.js`: GED preparation materials.
-  - `ti-education.js`: Calculator tutorial data.
-  - `uic-prep.js`: UIC placement preparation resources.
-  - `lib/`: Local dependency storage (e.g., `mathsteps.js`).
+```bash
+npm install
+node server.js
+```
 
-## 💻 Getting Started
+The website is available at `http://localhost:5000`.
 
-1. **Install Dependencies:**
-   ```bash
-   npm install
-   ```
+## Run the Python agent
 
-2. **Run the Server:**
-   ```bash
-   node server.js
-   ```
-   The application will be available at `http://localhost:5000`.
+Requires Python 3.10+.
 
-## 🏛️ About We Convene
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\\Scripts\\activate
+pip install -r requirements-agent.txt
+uvicorn agent.main:app --reload --host 127.0.0.1 --port 8000
+```
+
+See [AGENT.md](AGENT.md) for API examples and tests. The API docs are at `http://127.0.0.1:8000/docs` while the service is running.
+
+## About We Convene
+
 We Convene at School and Home Tutoring Services of Chicago provides personalized mathematics support tailored to Chicago students' needs, from middle school through college preparation.
